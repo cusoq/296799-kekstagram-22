@@ -52,6 +52,8 @@ const isValidLenght = function (currentString, maxLength) {
   return currentString.trim().length <= maxLength;
 }
 
+isValidLenght('', 1);
+
 const getRandomComment = (elements) => {
   let index = getRandomInt(0, elements.length - 1);
   if (index === 1) {
@@ -94,4 +96,3 @@ similarPosts.forEach((item) => item.id = similarPosts.indexOf(item, 0) + 1);
 similarPosts.forEach((item) => item.url = 'photos/' + item.id + '.jpg');
 
 const similarShuffledPosts = getShuffled(similarPosts);
-console.log(similarShuffledPosts);
