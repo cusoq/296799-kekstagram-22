@@ -46,7 +46,9 @@ const getRandomInt = function (min, max) {
   }
 };
 
-const getShuffled =(arr) => _.shuffle(arr);
+const getShuffled =(arr) => arr.sort(function () {
+  return Math.random() - 0.5;
+});
 
 const isValidLenght = function (currentString, maxLength) {
   return currentString.trim().length <= maxLength;
@@ -95,4 +97,4 @@ const similarPosts = new Array(TOTAL_POSTS_COUNT).fill(null).map(() => createPos
 similarPosts.forEach((item) => item.id = similarPosts.indexOf(item, 0) + 1);
 similarPosts.forEach((item) => item.url = 'photos/' + item.id + '.jpg');
 
-const similarShuffledPosts = getShuffled(similarPosts);
+getShuffled(similarPosts);
