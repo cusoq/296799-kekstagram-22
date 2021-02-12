@@ -1,5 +1,7 @@
 import {
-  getRandomInt
+  getRandomInt,
+  getRandomArrayElement,
+  getUniqId
 } from './util.js';
 
 import {
@@ -10,14 +12,13 @@ import {
 } from './data.js';
 
 import {
-  getRandomArrayElement,
   similarShuffledComments
 } from './comment-list.js';
 
 const createPost = () => {
   return {
-    id: null,
-    url: null,
+    id: getUniqId(),
+    url: 'photos/' + getRandomInt(1, TOTAL_POSTS_COUNT) + '.jpg',
     description: getRandomArrayElement(DESCRIPTIONS),
     likesCount: getRandomInt(MIN_LIKES_COUNT, MAX_LIKES_COUNT),
     comments: similarShuffledComments.slice(getRandomInt(0, similarShuffledComments.length - 1)),
@@ -25,8 +26,6 @@ const createPost = () => {
 };
 
 const similarPosts = new Array(TOTAL_POSTS_COUNT).fill(null).map(() => createPost());
-similarPosts.forEach((item) => item.id = similarPosts.indexOf(item, 0) + 1);
-similarPosts.forEach((item) => item.url = 'photos/' + item.id + '.jpg');
 
 export {
   similarPosts
