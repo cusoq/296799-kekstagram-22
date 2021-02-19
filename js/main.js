@@ -4,10 +4,13 @@ import {
 } from './util.js';
 
 import {
-  similarPosts
+  getSimilarPosts
 } from './post-list.js';
 
-import './picture.js';
+import {
+  getPhotoList
+} from './picture.js';
 
-getShuffled(similarPosts);
+getShuffled(getSimilarPosts());
 isValidLenght('', 1);
+getPhotoList();
