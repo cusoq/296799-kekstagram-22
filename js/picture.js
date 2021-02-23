@@ -1,6 +1,6 @@
 import {
-  getSimilarPosts
-} from './post-list.js';
+  getGalleryPosts
+} from './gallery.js';
 
 const getPhotoList = () => {
 
@@ -8,9 +8,10 @@ const getPhotoList = () => {
   const photoTemplate = document.querySelector('#picture').content;
   const photoListFragment = document.createDocumentFragment();
 
-  getSimilarPosts().forEach(({url, likesCount, comments}) => {
+  getGalleryPosts.forEach(({url, likesCount, comments, id}) => {
     const element = photoTemplate.cloneNode(true);
     element.querySelector('.picture__img').src = url;
+    element.querySelector('.picture').id = id;
     element.querySelector('.picture__likes').textContent = likesCount;
     element.querySelector('.picture__comments').textContent = comments.length;
     photoList.appendChild(element);

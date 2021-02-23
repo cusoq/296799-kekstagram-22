@@ -22,11 +22,27 @@ const getOneOrTwoRandomArrayElements = (elements) => {
   return getShuffled(elements).slice(getRandomInt(elements.length - 2, elements.length - 1));
 };
 
+const elementShower = (element) => element.classList.remove('hidden');
+const elementCloser = (element) => element.classList.add('hidden');
+const setOverlay = (element) => element.classList.add('modal-open');
+const removeOverlay = (element) => element.classList.remove('modal-open');
+
+const removeChildElements = (parent) => {
+  while (parent.firstChild) {
+    parent.firstChild.remove()
+  }
+};
+
 export {
   getRandomInt,
   getShuffled,
   getUniqId,
   getRandomArrayElement,
   getOneOrTwoRandomArrayElements,
+  elementShower,
+  elementCloser,
+  removeChildElements,
+  setOverlay,
+  removeOverlay,
   isValidLenght
 };
