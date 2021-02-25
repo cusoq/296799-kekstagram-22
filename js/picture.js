@@ -1,5 +1,5 @@
 import {
-  getGalleryPosts
+  galleryPosts
 } from './gallery.js';
 
 const getPhotoList = () => {
@@ -8,7 +8,7 @@ const getPhotoList = () => {
   const photoTemplate = document.querySelector('#picture').content;
   const photoListFragment = document.createDocumentFragment();
 
-  getGalleryPosts.forEach(({url, likesCount, comments, id}) => {
+  galleryPosts.forEach(({url, likesCount, comments, id}) => {
     const element = photoTemplate.cloneNode(true);
     element.querySelector('.picture__img').src = url;
     element.querySelector('.picture').id = id;

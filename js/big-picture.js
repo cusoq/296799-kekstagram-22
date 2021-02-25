@@ -2,8 +2,8 @@ import {
   removeChildElements,
   setOverlay,
   removeOverlay,
-  elementShower,
-  elementCloser
+  showElement,
+  closeElement
 } from './util.js';
 
 import {
@@ -16,7 +16,7 @@ import {
 
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
-const overlayedElement = document.querySelector('body');
+const overlayedElement = document.querySelector('.overlayed');
 const picturesContainer = document.querySelector('.pictures');
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureCloseButton = bigPictureContainer.querySelector('.big-picture__cancel');
@@ -26,10 +26,10 @@ const socialCommentsCounter = bigPictureContainer.querySelector('.social__commen
 const socialCommentsLoader = bigPictureContainer.querySelector('.comments-loader');
 
 const getCurrentPostData = (element) => {
-  element.href = element.querySelector('img').src;
-  bigPictureContainer.querySelector('img').src = element.href;
-  bigPictureContainer.querySelector('.likes-count').textContent = element.querySelector('.picture__likes').textContent;
-  bigPictureContainer.querySelector('.comments-count').textContent = element.querySelector('.picture__comments').textContent;
+  element.href = getCurrentPost(element).url;
+  bigPictureContainer.querySelector('.big-picture__big-img').src = element.href;
+  bigPictureContainer.querySelector('.likes-count').textContent = getCurrentPost(element).likesCount;
+  bigPictureContainer.querySelector('.comments-count').textContent = getCurrentPost(element).comments.length;
   bigPictureContainer.querySelector('.social__caption').textContent = getCurrentPost(element).description;
 }
 
@@ -44,15 +44,15 @@ const getCurrentCommentsList = (element) => {
 };
 
 const onCklickBigPictureShower = function (evt) {
-  if (evt.target.nodeName === 'IMG') {
+  if (evt.target.className === 'picture__img') {
     evt.preventDefault();
     getCurrentPostData(evt.target.parentNode);
     removeChildElements(bigPhotoCommentsList);
     getCurrentCommentsList(evt.target.parentNode);
-    elementCloser(socialCommentsCounter);
-    elementCloser(socialCommentsLoader);
+    closeElement(socialCommentsCounter);
+    closeElement(socialCommentsLoader);
     setOverlay(overlayedElement);
-    elementShower(bigPictureContainer);
+    showElement(bigPictureContainer);
   }
 };
 
@@ -62,10 +62,10 @@ const onKeydownBigPictureShower = function (evt) {
     getCurrentPostData(evt.target);
     removeChildElements(bigPhotoCommentsList);
     getCurrentCommentsList(evt.target);
-    elementCloser(socialCommentsCounter);
-    elementCloser(socialCommentsLoader);
+    closeElement(socialCommentsCounter);
+    closeElement(socialCommentsLoader);
     setOverlay(overlayedElement);
-    elementShower(bigPictureContainer);
+    showElement(bigPictureContainer);
   }
 };
 
@@ -74,12 +74,12 @@ const onEscCloser = function (evt) {
     evt.preventDefault();
     window.removeEventListener('keydown', onEscCloser);
     removeOverlay(overlayedElement);
-    elementCloser(bigPictureContainer);
+    closeElement(bigPictureContainer);
   }
 };
 
 const onClickCloser = () => {
-  elementCloser(bigPictureContainer);
+  closeElement(bigPictureContainer);
   removeOverlay(overlayedElement);
 };
 
