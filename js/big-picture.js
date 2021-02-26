@@ -1,4 +1,9 @@
 import {
+  ESC_KEYCODE,
+  ENTER_KEYCODE
+} from './data.js';
+
+import {
   removeChildElements,
   setOverlay,
   removeOverlay,
@@ -11,61 +16,60 @@ import {
 } from './picture.js';
 
 import {
-  getCurrentPost
+  getPostById
 } from './gallery.js';
 
-const ESC_KEYCODE = 27;
-const ENTER_KEYCODE = 13;
-const overlayedElement = document.querySelector('.overlayed');
-const picturesContainer = document.querySelector('.pictures');
-const bigPictureContainer = document.querySelector('.big-picture');
-const bigPictureCloseButton = bigPictureContainer.querySelector('.big-picture__cancel');
-const bigPhotoCommentsList = bigPictureContainer.querySelector('.social__comments');
-const bigPhotoComment = bigPictureContainer.querySelector('.social__comment');
-const socialCommentsCounter = bigPictureContainer.querySelector('.social__comment-count');
-const socialCommentsLoader = bigPictureContainer.querySelector('.comments-loader');
 
-const getCurrentPostData = (element) => {
-  element.href = getCurrentPost(element).url;
-  bigPictureContainer.querySelector('.big-picture__big-img').src = element.href;
-  bigPictureContainer.querySelector('.likes-count').textContent = getCurrentPost(element).likesCount;
-  bigPictureContainer.querySelector('.comments-count').textContent = getCurrentPost(element).comments.length;
-  bigPictureContainer.querySelector('.social__caption').textContent = getCurrentPost(element).description;
+const overlayedElement = document.querySelector('.overlayed');
+const picturesContainerElement = document.querySelector('.pictures');
+const bigPictureContainerElement = document.querySelector('.big-picture');
+const bigPictureCloseButtonElement = bigPictureContainerElement.querySelector('.big-picture__cancel');
+const bigPhotoCommentElementsListElement = bigPictureContainerElement.querySelector('.social__comments');
+const bigPhotoCommentElement = bigPictureContainerElement.querySelector('.social__comment');
+const socialCommentsCounterElement = bigPictureContainerElement.querySelector('.social__comment-count');
+const socialCommentsLoaderElement = bigPictureContainerElement.querySelector('.comments-loader');
+
+const setPostData = (data) => {
+  bigPictureContainerElement.querySelector('.big-picture__big-img').src = data.url;
+  bigPictureContainerElement.querySelector('.likes-count').textContent = data.likesCount;
+  bigPictureContainerElement.querySelector('.comments-count').textContent = data.comments.length;
+  bigPictureContainerElement.querySelector('.social__caption').textContent = data.description;
 }
 
-const getCurrentCommentsList = (element) => {
+const getCurrentCommentsList = (data) => {
   const commentsListFragment = document.createDocumentFragment();
-  getCurrentPost(element).comments.forEach(currentComment => {
-    const newComment = bigPhotoComment.cloneNode(true);
-    newComment.querySelector('.social__text').textContent = currentComment.message;
-    bigPhotoCommentsList.appendChild(newComment);
+  data.comments.forEach(comment => {
+    const newCommentElement = bigPhotoCommentElement.cloneNode(true);
+    newCommentElement.querySelector('.social__text').textContent = comment.message;
+    bigPhotoCommentElementsListElement.appendChild(newCommentElement);
   });
-  bigPhotoCommentsList.appendChild(commentsListFragment);
+  bigPhotoCommentElementsListElement.appendChild(commentsListFragment);
 };
 
+function showDetailsModal(evt) {
+  evt.preventDefault();
+
+  const id = evt.target.dataset.id;
+  const data = getPostById(id);
+
+  setPostData(data);
+  removeChildElements(bigPhotoCommentElementsListElement);
+  getCurrentCommentsList(data);
+  closeElement(socialCommentsCounterElement);
+  closeElement(socialCommentsLoaderElement);
+  setOverlay(overlayedElement);
+  showElement(bigPictureContainerElement);
+}
+
 const onCklickBigPictureShower = function (evt) {
-  if (evt.target.className === 'picture__img') {
-    evt.preventDefault();
-    getCurrentPostData(evt.target.parentNode);
-    removeChildElements(bigPhotoCommentsList);
-    getCurrentCommentsList(evt.target.parentNode);
-    closeElement(socialCommentsCounter);
-    closeElement(socialCommentsLoader);
-    setOverlay(overlayedElement);
-    showElement(bigPictureContainer);
+  if (evt.target.classList.contains('picture__img')) {
+    showDetailsModal(evt);
   }
 };
 
 const onKeydownBigPictureShower = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    evt.preventDefault();
-    getCurrentPostData(evt.target);
-    removeChildElements(bigPhotoCommentsList);
-    getCurrentCommentsList(evt.target);
-    closeElement(socialCommentsCounter);
-    closeElement(socialCommentsLoader);
-    setOverlay(overlayedElement);
-    showElement(bigPictureContainer);
+    showDetailsModal(evt);
   }
 };
 
@@ -74,18 +78,18 @@ const onEscCloser = function (evt) {
     evt.preventDefault();
     window.removeEventListener('keydown', onEscCloser);
     removeOverlay(overlayedElement);
-    closeElement(bigPictureContainer);
+    closeElement(bigPictureContainerElement);
   }
 };
 
 const onClickCloser = () => {
-  closeElement(bigPictureContainer);
+  closeElement(bigPictureContainerElement);
   removeOverlay(overlayedElement);
 };
 
-picturesContainer.addEventListener('click', onCklickBigPictureShower);
-picturesContainer.addEventListener('keydown', onKeydownBigPictureShower);
-bigPictureCloseButton.addEventListener('click', onClickCloser);
+picturesContainerElement.addEventListener('click', onCklickBigPictureShower);
+picturesContainerElement.addEventListener('keydown', onKeydownBigPictureShower);
+bigPictureCloseButtonElement.addEventListener('click', onClickCloser);
 document.addEventListener('keydown', onEscCloser);
 
 export {

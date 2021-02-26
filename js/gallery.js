@@ -3,9 +3,9 @@ import {
 } from './post-list.js';
 
 const galleryPosts = getSimilarPosts();
-const getCurrentPost = (element) =>  galleryPosts.find(obj => obj.id === element.id);
+const getPostById = (id) => galleryPosts.find(obj => obj.id === id);
 
 export {
   galleryPosts,
-  getCurrentPost
+  getPostById
 }

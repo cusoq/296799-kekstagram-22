@@ -4,20 +4,21 @@ import {
 
 const getPhotoList = () => {
 
-  const photoList = document.querySelector('.pictures');
-  const photoTemplate = document.querySelector('#picture').content;
+  const photoListElement = document.querySelector('.pictures');
+  const photoTemplateElement = document.querySelector('#picture').content;
   const photoListFragment = document.createDocumentFragment();
 
   galleryPosts.forEach(({url, likesCount, comments, id}) => {
-    const element = photoTemplate.cloneNode(true);
+    const element = photoTemplateElement.cloneNode(true);
     element.querySelector('.picture__img').src = url;
-    element.querySelector('.picture').id = id;
+    element.querySelector('.picture__img').setAttribute('data-id', id);
+    element.querySelector('.picture').setAttribute('data-id', id);
     element.querySelector('.picture__likes').textContent = likesCount;
     element.querySelector('.picture__comments').textContent = comments.length;
-    photoList.appendChild(element);
+    photoListElement.appendChild(element);
   });
 
-  photoList.appendChild(photoListFragment);
+  photoListElement.appendChild(photoListFragment);
 };
 
 export {
