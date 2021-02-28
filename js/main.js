@@ -9,8 +9,9 @@ import {
 
 import {
   getPhotoList
-} from './picture.js';
+} from './big-picture.js';
 
 getShuffled(getSimilarPosts());
 isValidLenght('', 1);
 getPhotoList();
+

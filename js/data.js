@@ -2,6 +2,8 @@ const TOTAL_POSTS_COUNT = 25;
 const MIN_LIKES_COUNT = 10;
 const MAX_LIKES_COUNT = 200;
 const TOTAL_COMMENTS_COUNT = 40;
+const ESC_KEYCODE = 27;
+const ENTER_KEYCODE = 13;
 
 const COMMENTS = [
   'Всё отлично!',
@@ -46,5 +48,7 @@ export {
   COMMENTS,
   NAMES,
   SURNAMES,
+  ESC_KEYCODE,
+  ENTER_KEYCODE,
   DESCRIPTIONS
 };
