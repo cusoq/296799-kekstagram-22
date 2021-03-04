@@ -68,7 +68,7 @@ const onCklickBigPictureShower = function (evt) {
 };
 
 const onKeydownBigPictureShower = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.contains('picture')) {
     showDetailsModal(evt);
   }
 };

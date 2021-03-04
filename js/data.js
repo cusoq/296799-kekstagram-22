@@ -4,6 +4,8 @@ const MAX_LIKES_COUNT = 200;
 const TOTAL_COMMENTS_COUNT = 40;
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
+// const STEP = 25;
+
 
 const COMMENTS = [
   'Всё отлично!',
@@ -50,5 +52,6 @@ export {
   SURNAMES,
   ESC_KEYCODE,
   ENTER_KEYCODE,
+  // STEP,
   DESCRIPTIONS
 };
