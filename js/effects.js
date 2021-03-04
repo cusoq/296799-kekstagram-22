@@ -1,8 +1,8 @@
 /* global noUiSlider:readonly */
-let RANGEMIN;
-let RANGEMAX;
-let RANGESTART;
-let STEP;
+import {
+  SliderData
+} from './data.js';
+
 const sliderElement = document.querySelector('.effect-level__slider');
 const scaleInputElement = document.querySelector('.scale__control--value');
 const effectInputElement = document.querySelector('.effect-level__value');
@@ -15,7 +15,6 @@ const sepiaEffectInputElement = document.querySelector('#effect-sepia');
 const marvinEffectInputElement = document.querySelector('#effect-marvin');
 const phobosEffectInputElement = document.querySelector('#effect-phobos');
 const heatEffectInputElement = document.querySelector('#effect-heat');
-
 
 const createSlider = (min, max, start, step) => {
   noUiSlider.create(sliderElement, {
@@ -44,13 +43,26 @@ const isSliderDestroy = () => {
   }
 };
 
+const setScaleLevelByButtons = (fn) => {
+  sliderElement.noUiSlider.set(scaleInputElement.value);
+  fn;
+};
+
+const setInpitValueBySliderHandle = (setPictureEffectuntion) => {
+  return (__, handle, unencoded) => {
+    effectInputElement.value = unencoded[handle];
+    setPictureEffectuntion();
+  };
+}
+const groupeRepeatingEventListenerActions = (onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter) => {
+  scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
+  scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+  noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+}
+
 const setEffect = () => {
   const setPictureTransform = () => picturePreviewElement.style.transform = `scale(${parseInt(scaleInputElement.value) / 100})`
-  RANGEMIN = 25;
-  RANGEMAX = 100;
-  RANGESTART = 100;
-  STEP = 25;
-  createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
+  createSlider(SliderData.SCALE_RANGEMIN, SliderData.SCALE_RANGEMAX, SliderData.SCALE_START, SliderData.SCALE_STEP);
 
   const onUpdateSlider = (__, handle, unencoded) => {
     scaleInputElement.value = `${unencoded[handle]}%`;
@@ -59,15 +71,13 @@ const setEffect = () => {
   sliderElement.noUiSlider.on('update', onUpdateSlider);
 
   const onCklickValueUpper = () => {
-    scaleInputElement.value = `${parseInt(scaleInputElement.value) + STEP}%`;
-    sliderElement.noUiSlider.set(scaleInputElement.value);
-    setPictureTransform();
+    scaleInputElement.value = `${parseInt(scaleInputElement.value) + SliderData.SCALE_STEP}%`;
+    setScaleLevelByButtons(setPictureTransform());
   }
 
   const onCklickValueDowner = () => {
-    scaleInputElement.value = `${parseInt(scaleInputElement.value) - STEP}%`;
-    sliderElement.noUiSlider.set(scaleInputElement.value);
-    setPictureTransform();
+    scaleInputElement.value = `${parseInt(scaleInputElement.value) - SliderData.SCALE_STEP}%`;
+    setScaleLevelByButtons(setPictureTransform());
   }
 
   const onChangeNoneEffectSetter = () => {
@@ -89,22 +99,12 @@ const setEffect = () => {
     picturePreviewElement.classList.add('effects__preview--chrome');
 
     const setPictureEffect = () => picturePreviewElement.style.filter = `grayscale(${effectInputElement.value})`;
-    RANGEMIN = 0;
-    RANGEMAX = 1;
-    RANGESTART = 1;
-    STEP = 0.1;
-    createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
-
-    const onUpdateSlider = (__, handle, unencoded) => {
-      effectInputElement.value = unencoded[handle];
-      setPictureEffect();
-    }
+    createSlider(SliderData.CHROME_RANGEMIN, SliderData.CHROME_RANGEMAX, SliderData.CHROME_START, SliderData.CHROME_STEP);
+    const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
-    sliderElement.noUiSlider.set(RANGESTART);
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    sliderElement.noUiSlider.set(SliderData.CHROME_START);
     sepiaEffectInputElement.removeEventListener('change', onChangeChromeEffectSetter);
-    noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+    groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
   const onChangeSepiaEffectSetter = () => {
@@ -112,68 +112,36 @@ const setEffect = () => {
     picturePreviewElement.classList.add('effects__preview--sepia');
 
     const setPictureEffect = () => picturePreviewElement.style.filter = `sepia(${effectInputElement.value})`;
-    RANGEMIN = 0;
-    RANGEMAX = 1;
-    RANGESTART = 1;
-    STEP = 0.1;
-    createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
-
-    const onUpdateSlider = (__, handle, unencoded) => {
-      effectInputElement.value = unencoded[handle];
-      setPictureEffect();
-    }
+    createSlider(SliderData.SEPIA_RANGEMIN, SliderData.SEPIA_RANGEMAX, SliderData.SEPIA_START, SliderData.SEPIA_STEP);
+    const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
-    sliderElement.noUiSlider.set(RANGESTART);
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    sliderElement.noUiSlider.set(SliderData.SEPIA_START);
     sepiaEffectInputElement.removeEventListener('change', onChangeSepiaEffectSetter);
-    noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+    groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
   const onChangeMarvinEffectSetter = () => {
     isSliderDestroy();
     picturePreviewElement.classList.add('effects__preview--marvin');
-
     const setPictureEffect = () => picturePreviewElement.style.filter = `invert(${effectInputElement.value}%)`;
-    RANGEMIN = 0;
-    RANGEMAX = 100;
-    RANGESTART = 100;
-    STEP = 1;
-    createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
-
-    const onUpdateSlider = (__, handle, unencoded) => {
-      effectInputElement.value = unencoded[handle];
-      setPictureEffect();
-    }
+    createSlider(SliderData.MARVIN_RANGEMIN, SliderData.MARVIN_RANGEMAX, SliderData.MARVIN_START, SliderData.MARVIN_STEP);
+    const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
-    sliderElement.noUiSlider.set(RANGESTART);
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
+    sliderElement.noUiSlider.set(SliderData.MARVIN_START);
     scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
-    sepiaEffectInputElement.removeEventListener('change', onChangeMarvinEffectSetter);
-    noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+    groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
   const onChangePhobosEffectSetter = () => {
     isSliderDestroy();
     picturePreviewElement.classList.add('effects__preview--phobos');
-
     const setPictureEffect = () => picturePreviewElement.style.filter = `blur(${effectInputElement.value}px)`;
-    RANGEMIN = 0;
-    RANGEMAX = 3;
-    RANGESTART = 3;
-    STEP = 0.1;
-    createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
-
-    const onUpdateSlider = (__, handle, unencoded) => {
-      effectInputElement.value = unencoded[handle];
-      setPictureEffect();
-    }
+    createSlider(SliderData.PHOBOS_RANGEMIN, SliderData.PHOBOS_RANGEMAX, SliderData.PHOBOS_START, SliderData.PHOBOS_STEP);
+    const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
-    sliderElement.noUiSlider.set(RANGESTART);
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    sliderElement.noUiSlider.set(SliderData.PHOBOS_START);
     sepiaEffectInputElement.removeEventListener('change', onChangePhobosEffectSetter);
-    noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+    groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
   const onChangeHeatEffectSetter = () => {
@@ -181,22 +149,12 @@ const setEffect = () => {
     picturePreviewElement.classList.add('effects__preview--heat');
 
     const setPictureEffect = () => picturePreviewElement.style.filter = `brightness(${effectInputElement.value})`;
-    RANGEMIN = 1;
-    RANGEMAX = 3;
-    RANGESTART = 3;
-    STEP = 0.1;
-    createSlider(RANGEMIN, RANGEMAX, RANGESTART, STEP);
-
-    const onUpdateSlider = (__, handle, unencoded) => {
-      effectInputElement.value = unencoded[handle];
-      setPictureEffect();
-    }
+    createSlider(SliderData.HEAT_RANGEMIN, SliderData.HEAT_RANGEMAX, SliderData.HEAT_START, SliderData.HEAT_STEP);
+    const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
-    sliderElement.noUiSlider.set(RANGESTART);
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    sliderElement.noUiSlider.set(SliderData.HEAT_START);
     sepiaEffectInputElement.removeEventListener('change', onChangeHeatEffectSetter);
-    noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
+    groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
   noneEffectInputElement.addEventListener('change', onChangeNoneEffectSetter);
