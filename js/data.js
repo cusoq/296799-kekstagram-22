@@ -4,6 +4,14 @@ const MAX_LIKES_COUNT = 200;
 const TOTAL_COMMENTS_COUNT = 40;
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
+const COMMENT_SIZE = 140;
+
+const HashTagData = {
+  OCTOTHORPE: '#',
+  MIN_HASHTAG_SIZE: 2,
+  MAX_HASHTAG_SIZE: 20,
+  HASHTAGS_AMOUNT: 5,
+};
 
 const SliderData = {
   SCALE_RANGEMIN: 25,
@@ -36,6 +44,8 @@ const SliderData = {
   HEAT_START: 3,
   HEAT_STEP: 0.1,
 }
+
+const hashTagRegExpSymbolsPattern = /[a-zA-Zа-яА-ЯёЁ0-9]/;
 
 const COMMENTS = [
   'Всё отлично!',
@@ -83,5 +93,8 @@ export {
   ESC_KEYCODE,
   ENTER_KEYCODE,
   DESCRIPTIONS,
+  COMMENT_SIZE,
+  hashTagRegExpSymbolsPattern,
+  HashTagData,
   SliderData
 };
