@@ -46,6 +46,7 @@ const getBigPicture = (loadedPictures) => {
     // Почему на массиве загруженных по сети объектов перестал работать метод find?
 
     const getPostById = (id) => loadedPictures[id];// Кажется, этот альтернативный способ не очень хорош. Ведь тут нам просто повезло, что id совпадает с индексом элемента массива
+    //??????????????????????????????????????
     const bigPictureData = getPostById(id);
 
     setPostData(bigPictureData);

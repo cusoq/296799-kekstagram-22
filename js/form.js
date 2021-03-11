@@ -6,9 +6,14 @@ import {
 } from './data.js'
 
 import {
-  isValidLenght
+  isValidLenght,
+  removeOverlay,
+  closeElement
 } from './util.js';
 
+const overlayedElement = document.querySelector('.overlayed');
+const uploadContainerElement = document.querySelector('.img-upload__overlay');
+const uploadForm = document.querySelector('.img-upload__form');
 const hashTagInput = document.querySelector('.text__hashtags');
 const commentTextarea = document.querySelector('.text__description');
 
@@ -59,13 +64,13 @@ const isFormValid = () => {
   ];
 
 
-  const getCheckAction = (printedString) => checkActions.find(({check}) => check(printedString));
+  const getCheckAction = (printedString) => checkActions.find(({ check }) => check(printedString));
 
   const getHashTagsArray = () => hashTagInput.value.split(' ').map(((value) => value.toLowerCase()));
 
   const onInputCheckHashTags = () => {
     const hashTags = getHashTagsArray();
-    const {errorMessage} = getCheckAction(hashTags);
+    const { errorMessage } = getCheckAction(hashTags);
     if (errorMessage) {
       hashTagInput.setCustomValidity(errorMessage);
     } else {
@@ -92,9 +97,19 @@ const isFormValid = () => {
   commentTextarea.addEventListener('keydown', onEscTextarea);
 };
 
+const closeForm = () => {
+  const onSubmitCloser = (evt) => {
+    evt.preventDefault();
+    removeOverlay(overlayedElement);
+    closeElement(uploadContainerElement);
+    uploadForm.reset();
+  }
+  uploadForm.addEventListener('submit', onSubmitCloser);
+};
 
 export {
-  isFormValid
+  isFormValid,
+  closeForm
 };
 
 

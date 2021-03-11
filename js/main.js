@@ -1,10 +1,15 @@
 import {
-  isFormValid
+  isFormValid,
+  closeForm
 } from './form.js';
 
 import {
-  getPhotoList
+  getPhotoList,
+  postData
 } from './backend.js';
+
+import {
+} from './big-picture.js';
 
 import {
   isUploadPicture
@@ -13,3 +18,6 @@ import {
 getPhotoList();
 isUploadPicture();
 isFormValid();
+postData();
+closeForm();
+

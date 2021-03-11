@@ -13,6 +13,7 @@ import {
   closeElement
 } from './util.js';
 
+const uploadForm = document.querySelector('.img-upload__form');
 const overlayedElement = document.querySelector('.overlayed');
 const uploadContainerElement = document.querySelector('.img-upload__overlay');
 const uploadInputElement = document.querySelector('#upload-file');
@@ -29,6 +30,7 @@ const isUploadPicture = () => {
     uploadInputElement.value = '';
     closeElement(uploadContainerElement);
     removeOverlay(overlayedElement);
+    uploadForm.reset();
   };
 
   const onEscCloser = function (evt) {
@@ -37,6 +39,7 @@ const isUploadPicture = () => {
       window.removeEventListener('keydown', onEscCloser);
       removeOverlay(overlayedElement);
       closeElement(uploadContainerElement);
+      uploadForm.reset();
     }
   };
 
