@@ -1,6 +1,8 @@
 import {
+  ESC_KEYCODE,
   TOTAL_POSTS_COUNT,
-  CLOSE_MESSAGE
+  CLOSE_MESSAGE,
+  StatusResults
 } from './data.js';
 
 import {
@@ -17,7 +19,7 @@ import {
 
 const overlayedElement = document.querySelector('.overlayed');
 const uploadContainerElement = document.querySelector('.img-upload__overlay');
-const uploadForm = document.querySelector('.img-upload__form');
+const uploadFormElement = document.querySelector('.img-upload__form');
 const errorMessageElement = document.querySelector('#error').content;
 const successMessageElement = document.querySelector('#success').content;
 
@@ -26,9 +28,26 @@ const checkStatus = (response) => {
   if (response.ok) {
     return response;
   }
-
   const { statusText, status } = response;
   throw new Error(`${status} — ${statusText}`);
+}
+
+const removeMessageBlock = (status) => {
+  const currentStatus = status;
+  const onClickCloser = () => overlayedElement.querySelector(`.${currentStatus}`).remove();
+  const onEscCloser = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      evt.preventDefault();
+      window.removeEventListener('keydown', onEscCloser);
+      overlayedElement.querySelector(`.${currentStatus}`).remove();
+    }
+  };
+
+  const onClickNonCloser = (evt) => evt.stopPropagation();
+  overlayedElement.querySelector(`.${currentStatus}`).addEventListener('click', onClickCloser);
+  overlayedElement.querySelector(`.${currentStatus}__inner`).addEventListener('click', onClickNonCloser);
+  overlayedElement.querySelector(`.${currentStatus}__button`).addEventListener('click', onClickCloser);
+  window.addEventListener('keydown', onEscCloser);
 }
 
 const getSuccessMessage = () => {
@@ -36,9 +55,7 @@ const getSuccessMessage = () => {
   const element = successMessageElement.cloneNode(true);
   overlayedElement.appendChild(element);
   overlayedElement.appendChild(successMessageFragment);
-  //?????????????????????????????
-  setTimeout(() => element.remove(), 5000) // Почему не pаботает remove()?
-  //?????????????????????????????
+  removeMessageBlock(StatusResults.SUCCESS);
 };
 
 const getErrorMessage = (error, message) => {
@@ -48,11 +65,9 @@ const getErrorMessage = (error, message) => {
   if (message) {
     element.querySelector('.error__button').textContent = message;
   }
-  overlayedElement.appendChild(element);
+  errorMessageFragment.appendChild(element);
   overlayedElement.appendChild(errorMessageFragment);
-  //?????????????????????????????
-  setTimeout(() => element.remove(), 5000) // Почему не pаботает remove()?
-  //?????????????????????????????
+  removeMessageBlock(StatusResults.ERROR);
 };
 
 const getPhotoList = () => {
@@ -69,14 +84,10 @@ const getPhotoList = () => {
 };
 
 const postData = () => {
-
   const onSuccess = () => closeElement(uploadContainerElement);
-
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
     const formData = new FormData(evt.target);
-
     fetch(
       'https://22.javascript.pages.academy/kekstagram',
       {

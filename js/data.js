@@ -2,7 +2,12 @@ const TOTAL_POSTS_COUNT = 25;
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
 const COMMENT_SIZE = 140;
-const CLOSE_MESSAGE = 'окно закроется через 5 сек';
+const CLOSE_MESSAGE = 'закройте скорее';
+
+const StatusResults = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
 
 const HashTagData = {
   OCTOTHORPE: '#',
@@ -53,5 +58,6 @@ export {
   COMMENT_SIZE,
   hashTagRegExpSymbolsPattern,
   HashTagData,
+  StatusResults,
   SliderData
 };

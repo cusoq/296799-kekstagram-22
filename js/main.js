@@ -9,9 +9,6 @@ import {
 } from './backend.js';
 
 import {
-} from './big-picture.js';
-
-import {
   isUploadPicture
 } from './upload.js';
 

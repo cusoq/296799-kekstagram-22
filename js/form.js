@@ -13,9 +13,9 @@ import {
 
 const overlayedElement = document.querySelector('.overlayed');
 const uploadContainerElement = document.querySelector('.img-upload__overlay');
-const uploadForm = document.querySelector('.img-upload__form');
-const hashTagInput = document.querySelector('.text__hashtags');
-const commentTextarea = document.querySelector('.text__description');
+const uploadFormElement = document.querySelector('.img-upload__form');
+const hashTagInputElement = document.querySelector('.text__hashtags');
+const commentTextareaElement = document.querySelector('.text__description');
 
 const setOnEscPreventClosing = (evt) => {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -66,35 +66,35 @@ const isFormValid = () => {
 
   const getCheckAction = (printedString) => checkActions.find(({ check }) => check(printedString));
 
-  const getHashTagsArray = () => hashTagInput.value.split(' ').map(((value) => value.toLowerCase()));
+  const getHashTagsArray = () => hashTagInputElement.value.split(' ').map(((value) => value.toLowerCase()));
 
   const onInputCheckHashTags = () => {
     const hashTags = getHashTagsArray();
     const { errorMessage } = getCheckAction(hashTags);
     if (errorMessage) {
-      hashTagInput.setCustomValidity(errorMessage);
+      hashTagInputElement.setCustomValidity(errorMessage);
     } else {
-      hashTagInput.setCustomValidity('');
+      hashTagInputElement.setCustomValidity('');
     }
-    hashTagInput.reportValidity();
+    hashTagInputElement.reportValidity();
   };
 
   const onInputTextarea = () => {
-    if (!isValidLenght(commentTextarea.value, COMMENT_SIZE)) {
-      commentTextarea.setCustomValidity('Текст не должен превышать 140 символов');
+    if (!isValidLenght(commentTextareaElement.value, COMMENT_SIZE)) {
+      commentTextareaElement.setCustomValidity('Текст не должен превышать 140 символов');
     } else {
-      commentTextarea.setCustomValidity('');
+      commentTextareaElement.setCustomValidity('');
     }
-    commentTextarea.reportValidity();
+    commentTextareaElement.reportValidity();
   };
 
   const onEschashTagInput = (evt) => setOnEscPreventClosing(evt);
   const onEscTextarea = (evt) => setOnEscPreventClosing(evt);
 
-  hashTagInput.addEventListener('input', onInputCheckHashTags);
-  commentTextarea.addEventListener('input', onInputTextarea);
-  hashTagInput.addEventListener('keydown', onEschashTagInput);
-  commentTextarea.addEventListener('keydown', onEscTextarea);
+  hashTagInputElement.addEventListener('input', onInputCheckHashTags);
+  commentTextareaElement.addEventListener('input', onInputTextarea);
+  hashTagInputElement.addEventListener('keydown', onEschashTagInput);
+  commentTextareaElement.addEventListener('keydown', onEscTextarea);
 };
 
 const closeForm = () => {
@@ -102,9 +102,9 @@ const closeForm = () => {
     evt.preventDefault();
     removeOverlay(overlayedElement);
     closeElement(uploadContainerElement);
-    uploadForm.reset();
+    uploadFormElement.reset();
   }
-  uploadForm.addEventListener('submit', onSubmitCloser);
+  uploadFormElement.addEventListener('submit', onSubmitCloser);
 };
 
 export {
