@@ -1,26 +1,20 @@
 import {
-  getShuffled,
-  isValidLenght
-} from './util.js';
-
-import {
-  getSimilarPosts
-} from './post-list.js';
-
-import {
-  isFormValid
+  isFormValid,
+  closeForm
 } from './form.js';
 
 import {
-  getPhotoList
-} from './big-picture.js';
+  getPhotoList,
+  postData
+} from './backend.js';
 
 import {
   isUploadPicture
 } from './upload.js';
 
-getShuffled(getSimilarPosts());
-isValidLenght('', 1);
 getPhotoList();
 isUploadPicture();
 isFormValid();
+postData();
+closeForm();
+
