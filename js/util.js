@@ -13,11 +13,25 @@ const removeChildElements = (parent) => {
   }
 };
 
+let debounce = (cb, delayInterval) => {
+  let lastTimeout = null;
+  return function () {
+    let args = arguments;
+    if (lastTimeout) {
+      clearTimeout(lastTimeout);
+    }
+    lastTimeout = setTimeout(function () {
+      cb.apply(null, args);
+    }, delayInterval);
+  };
+};
+
 export {
   showElement,
   closeElement,
   removeChildElements,
   setOverlay,
   removeOverlay,
-  isValidLenght
+  isValidLenght,
+  debounce
 };

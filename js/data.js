@@ -2,6 +2,7 @@ const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
 const COMMENT_SIZE = 140;
 const CLOSE_MESSAGE = 'закройте скорее';
+const DELAY_INTERVAL = 500;
 
 const PostCounts = {
   TOTAL_POSTS_COUNT: 25,
@@ -65,6 +66,7 @@ export {
   ESC_KEYCODE,
   ENTER_KEYCODE,
   COMMENT_SIZE,
+  DELAY_INTERVAL,
   hashTagRegExpSymbolsPattern,
   HashTagData,
   StatusResults,
