@@ -40,13 +40,11 @@ const getBigPicture = (loadedPictures) => {
 
   function showDetailsModal(evt) {
     evt.preventDefault();
-    const id = evt.target.dataset.id;
-    const getPostById = (id) => loadedPictures.find(obj => obj.id == id);
-    const bigPictureData = getPostById(id);
+    const bigPictureData = (id) => loadedPictures.find(obj => obj.id == id);
 
-    setPostData(bigPictureData);
+    setPostData(bigPictureData(evt.target.dataset.id));
     removeChildElements(bigPhotoCommentElementsListElement);
-    getCurrentCommentsList(bigPictureData);
+    getCurrentCommentsList(bigPictureData(evt.target.dataset.id));
     closeElement(socialCommentsCounterElement);
     closeElement(socialCommentsLoaderElement);
     setOverlay(overlayedElement);

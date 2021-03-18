@@ -4,7 +4,7 @@ const getData = (galleryPosts) => {
   const photoTemplateElement = document.querySelector('#picture').content;
   const photoListFragment = document.createDocumentFragment();
 
-  galleryPosts.forEach(({url, likes, comments, id}) => {
+  galleryPosts.forEach(({ url, likes, comments, id }) => {
     const element = photoTemplateElement.cloneNode(true);
     element.querySelector('.picture__img').src = url;
     element.querySelector('.picture__img').setAttribute('data-id', id);
@@ -15,8 +15,7 @@ const getData = (galleryPosts) => {
   });
 
   photoListElement.appendChild(photoListFragment);
-};
-
+}
 export {
   getData
 }

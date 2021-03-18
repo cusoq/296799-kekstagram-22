@@ -1,12 +1,21 @@
-const TOTAL_POSTS_COUNT = 25;
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
 const COMMENT_SIZE = 140;
 const CLOSE_MESSAGE = 'закройте скорее';
 
+const PostCounts = {
+  TOTAL_POSTS_COUNT: 25,
+  FILTERED_POSTS_COUNT: 10,
+};
+
 const StatusResults = {
   SUCCESS: 'success',
   ERROR: 'error',
+};
+
+const DataUrls = {
+  GET_DATA_URL: 'https://22.javascript.pages.academy/kekstagram/data',
+  POST_DATA_URL: 'https://22.javascript.pages.academy/kekstagram',
 };
 
 const HashTagData = {
@@ -51,7 +60,7 @@ const SliderData = {
 const hashTagRegExpSymbolsPattern = /[a-zA-Zа-яА-ЯёЁ0-9]/;
 
 export {
-  TOTAL_POSTS_COUNT,
+  PostCounts,
   CLOSE_MESSAGE,
   ESC_KEYCODE,
   ENTER_KEYCODE,
@@ -59,5 +68,6 @@ export {
   hashTagRegExpSymbolsPattern,
   HashTagData,
   StatusResults,
+  DataUrls,
   SliderData
 };

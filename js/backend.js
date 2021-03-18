@@ -1,17 +1,13 @@
 import {
   ESC_KEYCODE,
-  TOTAL_POSTS_COUNT,
   CLOSE_MESSAGE,
-  StatusResults
+  StatusResults,
+  DataUrls
 } from './data.js';
 
 import {
-  getBigPicture
-} from './big-picture.js';
-
-import {
-  getData
-} from './picture.js';
+  getFilteredPosts
+} from './filters.js';
 
 import {
   closeElement
@@ -22,7 +18,6 @@ const uploadContainerElement = document.querySelector('.img-upload__overlay');
 const uploadFormElement = document.querySelector('.img-upload__form');
 const errorMessageElement = document.querySelector('#error').content;
 const successMessageElement = document.querySelector('#success').content;
-
 
 const checkStatus = (response) => {
   if (response.ok) {
@@ -71,13 +66,10 @@ const getErrorMessage = (error, message) => {
 };
 
 const getPhotoList = () => {
-  fetch('https://22.javascript.pages.academy/kekstagram/data')
+  fetch(DataUrls.GET_DATA_URL)
     .then(checkStatus)
     .then((response) => response.json())
-    .then((galleryPosts) => {
-      getData(galleryPosts.slice(0, TOTAL_POSTS_COUNT));
-      getBigPicture(galleryPosts)
-    })
+    .then(getFilteredPosts)
     .catch((error) => {
       getErrorMessage(error, CLOSE_MESSAGE);
     });
@@ -89,7 +81,7 @@ const postData = () => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     fetch(
-      'https://22.javascript.pages.academy/kekstagram',
+      DataUrls.POST_DATA_URL,
       {
         method: 'POST',
         body: formData,
@@ -99,9 +91,7 @@ const postData = () => {
         onSuccess();
         getSuccessMessage();
       })
-      .catch((error) => {
-        getErrorMessage(error, CLOSE_MESSAGE);
-      });
+      .catch((error) => getErrorMessage(error, CLOSE_MESSAGE));
   });
 };
 
