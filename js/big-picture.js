@@ -1,4 +1,6 @@
 import {
+  STEP_COMMENTS_ADD,
+  START_COMMENTS_COUNT,
   ESC_KEYCODE,
   ENTER_KEYCODE
 } from './data.js';
@@ -20,7 +22,51 @@ const bigPhotoCommentElement = bigPictureContainerElement.querySelector('.social
 const socialCommentsCounterElement = bigPictureContainerElement.querySelector('.social__comment-count');
 const socialCommentsLoaderElement = bigPictureContainerElement.querySelector('.comments-loader');
 
+const renderData = (bigPictureData) => {
+  const commentsListFragment = document.createDocumentFragment();
+  bigPictureData.forEach(comment => {
+    const newCommentElement = bigPhotoCommentElement.cloneNode(true);
+    newCommentElement.querySelector('.social__text').textContent = comment.message;
+    const name = comment.name + ':  ';
+    newCommentElement.querySelector('.social__text').insertAdjacentText('afterbegin', name);
+    newCommentElement.querySelector('.social__picture').src = comment.avatar;
+    bigPhotoCommentElementsListElement.appendChild(newCommentElement);
+  });
+  bigPhotoCommentElementsListElement.appendChild(commentsListFragment);
+}
+
+const getCurrentCommentsList = (bigPictureData) => {
+
+  if (bigPictureData.comments.length > STEP_COMMENTS_ADD) {
+    if(socialCommentsLoaderElement.classList.contains('hidden')) {
+      showElement(socialCommentsLoaderElement);
+    }
+    if(socialCommentsCounterElement.classList.contains('hidden')) {
+      showElement(socialCommentsCounterElement);
+    }
+    renderData(bigPictureData.comments.slice(START_COMMENTS_COUNT, STEP_COMMENTS_ADD));
+
+    const commentsToAdd = bigPictureData.comments.slice();
+
+    const onCklickCommentsShower = () => {
+      let startCommentCount = START_COMMENTS_COUNT + STEP_COMMENTS_ADD;
+      renderData(commentsToAdd.splice(startCommentCount, STEP_COMMENTS_ADD));
+    };
+
+    socialCommentsLoaderElement.addEventListener('click', onCklickCommentsShower);
+  } else {
+    if(!socialCommentsLoaderElement.classList.contains('hidden')) {
+      closeElement(socialCommentsLoaderElement);
+    }
+    if(!socialCommentsCounterElement.classList.contains('hidden')) {
+      closeElement(socialCommentsCounterElement);
+    }
+    renderData(bigPictureData.comments);
+  }
+};
+
 const getBigPicture = (loadedPictures) => {
+
   const setPostData = (bigPictureData) => {
     bigPictureContainerElement.querySelector('.big-picture__big-img').src = bigPictureData.url;
     bigPictureContainerElement.querySelector('.likes-count').textContent = bigPictureData.likesCount;
@@ -28,36 +74,23 @@ const getBigPicture = (loadedPictures) => {
     bigPictureContainerElement.querySelector('.social__caption').textContent = bigPictureData.description;
   }
 
-  const getCurrentCommentsList = (bigPictureData) => {
-    const commentsListFragment = document.createDocumentFragment();
-    bigPictureData.comments.forEach(comment => {
-      const newCommentElement = bigPhotoCommentElement.cloneNode(true);
-      newCommentElement.querySelector('.social__text').textContent = comment.message;
-      bigPhotoCommentElementsListElement.appendChild(newCommentElement);
-    });
-    bigPhotoCommentElementsListElement.appendChild(commentsListFragment);
-  };
-
-  function showDetailsModal(evt) {
+  const showDetailsModal = (evt) => {
     evt.preventDefault();
     const bigPictureData = (id) => loadedPictures.find(obj => obj.id == id);
-
     setPostData(bigPictureData(evt.target.dataset.id));
     removeChildElements(bigPhotoCommentElementsListElement);
-    getCurrentCommentsList(bigPictureData(evt.target.dataset.id));
-    closeElement(socialCommentsCounterElement);
-    closeElement(socialCommentsLoaderElement);
     setOverlay(overlayedElement);
     showElement(bigPictureContainerElement);
+    getCurrentCommentsList(bigPictureData(evt.target.dataset.id));
   }
 
-  const onCklickBigPictureShower = function (evt) {
+  const onCklickBigPictureShower = (evt) => {
     if (evt.target.classList.contains('picture__img')) {
       showDetailsModal(evt);
     }
   };
 
-  const onKeydownBigPictureShower = function (evt) {
+  const onKeydownBigPictureShower = (evt) => {
     if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.contains('picture')) {
       showDetailsModal(evt);
     }
@@ -73,6 +106,7 @@ const getBigPicture = (loadedPictures) => {
   };
 
   const onClickCloser = () => {
+    removeChildElements(bigPhotoCommentElementsListElement);
     closeElement(bigPictureContainerElement);
     removeOverlay(overlayedElement);
   };
