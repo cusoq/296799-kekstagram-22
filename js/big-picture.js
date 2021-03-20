@@ -44,13 +44,11 @@ const getCurrentCommentsList = (bigPictureData) => {
     if(socialCommentsCounterElement.classList.contains('hidden')) {
       showElement(socialCommentsCounterElement);
     }
-    renderData(bigPictureData.comments.slice(START_COMMENTS_COUNT, STEP_COMMENTS_ADD));
-
     const commentsToAdd = bigPictureData.comments.slice();
+    renderData(commentsToAdd.splice(START_COMMENTS_COUNT, STEP_COMMENTS_ADD));
 
     const onCklickCommentsShower = () => {
-      let startCommentCount = START_COMMENTS_COUNT + STEP_COMMENTS_ADD;
-      renderData(commentsToAdd.splice(startCommentCount, STEP_COMMENTS_ADD));
+      renderData(commentsToAdd.splice(START_COMMENTS_COUNT, STEP_COMMENTS_ADD));
     };
 
     socialCommentsLoaderElement.addEventListener('click', onCklickCommentsShower);
