@@ -74,7 +74,7 @@ const getBigPicture = (loadedPictures) => {
 
   const showDetailsModal = (evt) => {
     evt.preventDefault();
-    const bigPictureData = (id) => loadedPictures.find(obj => obj.id == id);
+    const bigPictureData = (id) => loadedPictures.find(picture => String(picture.id) === id);
     setPostData(bigPictureData(evt.target.dataset.id));
     removeChildElements(bigPhotoCommentElementsListElement);
     setOverlay(overlayedElement);
