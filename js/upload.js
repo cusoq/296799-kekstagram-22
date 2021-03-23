@@ -1,5 +1,6 @@
 import {
-  ESC_KEYCODE
+  ESC_KEYCODE,
+  FILE_TYPES
 } from './data.js';
 
 import {
@@ -18,6 +19,8 @@ const overlayedElement = document.querySelector('.overlayed');
 const uploadContainerElement = document.querySelector('.img-upload__overlay');
 const uploadInputElement = document.querySelector('#upload-file');
 const uploadCancelButtonElement = document.querySelector('.img-upload__cancel');
+const fileChooserElement = document.querySelector('#upload-file');
+const previewElement = document.querySelector('.img-upload__preview-pic');
 
 const isUploadPicture = () => {
 
@@ -47,6 +50,25 @@ const isUploadPicture = () => {
   uploadCancelButtonElement.addEventListener('click', onClickCloser);
   document.addEventListener('keydown', onEscCloser);
 }
+
+fileChooserElement.addEventListener('change', () => {
+  const file = fileChooserElement.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => {
+    return fileName.endsWith(it);
+  });
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      previewElement.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
 
 setEffect();
 

@@ -6,6 +6,9 @@ const DELAY_INTERVAL = 500;
 const STEP_COMMENTS_ADD = 5;
 const START_COMMENTS_COUNT = 0;
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+
 const PostCounts = {
   TOTAL_POSTS_COUNT: 25,
   FILTERED_POSTS_COUNT: 10,
@@ -71,6 +74,7 @@ export {
   DELAY_INTERVAL,
   STEP_COMMENTS_ADD,
   START_COMMENTS_COUNT,
+  FILE_TYPES,
   hashTagRegExpSymbolsPattern,
   HashTagData,
   StatusResults,
