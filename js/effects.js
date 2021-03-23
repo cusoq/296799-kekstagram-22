@@ -92,8 +92,8 @@ const setEffect = () => {
   const setPictureDefault = () => {
     picturePreviewElement.style.filter = 'none';
     picturePreviewElement.className = 'img-upload__preview';
-    scaleControlBiggerElement.removeEventListener('click', onCklickValueUpper);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    scaleControlBiggerElement.addEventListener('click', onCklickValueUpper);
+    scaleControlSmallerElement.addEventListener('click', onCklickValueDowner);
     noneEffectInputElement.removeEventListener('change', onChangeNoneEffectSetter);
     chromeEffectInputElement.addEventListener('change', onChangeChromeEffectSetter);
     sepiaEffectInputElement.addEventListener('change', onChangeSepiaEffectSetter);
@@ -117,7 +117,7 @@ const setEffect = () => {
     const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
     sliderElement.noUiSlider.set(SliderData.CHROME_START);
-    sepiaEffectInputElement.removeEventListener('change', onChangeChromeEffectSetter);
+    chromeEffectInputElement.removeEventListener('change', onChangeChromeEffectSetter);
     groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
@@ -142,7 +142,7 @@ const setEffect = () => {
     const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
     sliderElement.noUiSlider.set(SliderData.MARVIN_START);
-    scaleControlSmallerElement.removeEventListener('click', onCklickValueDowner);
+    marvinEffectInputElement.removeEventListener('click', onCklickValueDowner);
     groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
@@ -154,7 +154,7 @@ const setEffect = () => {
     const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
     sliderElement.noUiSlider.set(SliderData.PHOBOS_START);
-    sepiaEffectInputElement.removeEventListener('change', onChangePhobosEffectSetter);
+    phobosEffectInputElement.removeEventListener('change', onChangePhobosEffectSetter);
     groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 
@@ -167,7 +167,7 @@ const setEffect = () => {
     const onUpdateSlider = setInpitValueBySliderHandle(setPictureEffect)
     sliderElement.noUiSlider.on('update', onUpdateSlider);
     sliderElement.noUiSlider.set(SliderData.HEAT_START);
-    sepiaEffectInputElement.removeEventListener('change', onChangeHeatEffectSetter);
+    heatEffectInputElement.removeEventListener('change', onChangeHeatEffectSetter);
     groupeRepeatingEventListenerActions(onCklickValueUpper, onCklickValueDowner, onChangeNoneEffectSetter);
   };
 

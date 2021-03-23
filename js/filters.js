@@ -1,6 +1,11 @@
 import {
+  DELAY_INTERVAL,
   PostCounts
 } from './data.js';
+
+import {
+  debounce
+} from './util.js';
 
 import {
   getGallery
@@ -8,9 +13,9 @@ import {
 
 const uploadFiltersFormElement = document.querySelector('.img-filters__form');
 const uploadFiltersButtonElements = uploadFiltersFormElement.querySelectorAll('.img-filters__button');
-const removePics = () => document.querySelectorAll('.picture').forEach(element => {element.remove()});
+const removePics = () => document.querySelectorAll('.picture').forEach(element => { element.remove() });
 const setFilterButtonStyle = (element) => {
-  uploadFiltersButtonElements.forEach(element =>element.classList.remove('img-filters__button--active'));
+  uploadFiltersButtonElements.forEach(element => element.classList.remove('img-filters__button--active'));
   element.classList.add('img-filters__button--active');
 };
 
@@ -24,21 +29,22 @@ const getFilteredPosts = (galleryPosts) => {
     if (evt.target.id === 'filter-default') {
       setFilterButtonStyle(evt.target);
       removePics();
-      getGallery(galleryPosts.slice(0, PostCounts.TOTAL_POSTS_COUNT))
+      getGallery(galleryPosts.slice(0, PostCounts.TOTAL_POSTS_COUNT));
     } else if (evt.target.id === 'filter-random') {
       setFilterButtonStyle(evt.target);
       removePics();
-      getGallery(galleryPosts.slice(0, PostCounts.FILTERED_POSTS_COUNT).sort(() => 0.5 - Math.random()))
+      getGallery(galleryPosts.slice(0, PostCounts.FILTERED_POSTS_COUNT).sort(() => 0.5 - Math.random()));
     } else if (evt.target.id === 'filter-discussed') {
       setFilterButtonStyle(evt.target);
       removePics();
       const SetCompareCommentsCount = (b, a) => a.comments.length - b.comments.length;
       getGallery(galleryPosts.slice().sort(SetCompareCommentsCount));
     }
-
   };
-  uploadFiltersFormElement.addEventListener('click', onClickFilter);
+
+  uploadFiltersFormElement.addEventListener('click', debounce(onClickFilter, DELAY_INTERVAL));
 };
+
 export {
   getFilteredPosts
 }
