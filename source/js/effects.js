@@ -1,4 +1,6 @@
-/* global noUiSlider:readonly */
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
+
 import {
   ESC_KEYCODE,
   SliderData
