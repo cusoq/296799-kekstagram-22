@@ -6,8 +6,8 @@ import {
 } from './data.js';
 
 import {
-  getFilteredPosts
-} from './filters.js';
+  getGallery
+} from './main.js';
 
 import {
   closeElement
@@ -69,7 +69,7 @@ const getPhotoList = () => {
   fetch(DataUrls.GET_DATA_URL)
     .then(checkStatus)
     .then((response) => response.json())
-    .then(getFilteredPosts)
+    .then(getGallery)
     .catch((error) => {
       getErrorMessage(error, CLOSE_MESSAGE);
     });

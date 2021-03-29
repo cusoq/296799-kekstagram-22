@@ -17,11 +17,11 @@ import {
 } from './big-picture.js';
 
 import {
-  getData
-} from './picture.js';
+  getFilteredPosts
+} from './filters.js';
 
 const getGallery = (pictureList) => {
-  getData(pictureList);
+  getFilteredPosts(pictureList);
   getBigPicture(pictureList);
 };
 
