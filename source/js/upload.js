@@ -1,3 +1,5 @@
+import focusManager from 'focus-manager';
+
 import {
   ESC_KEYCODE,
   FILE_TYPES
@@ -26,6 +28,7 @@ const isUploadPicture = () => {
 
   const onChangeInputValue = () => {
     showElement(uploadContainerElement);
+    focusManager.capture(uploadContainerElement);
     setOverlay(overlayedElement);
   };
 
@@ -39,7 +42,6 @@ const isUploadPicture = () => {
   const onEscCloser = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       evt.preventDefault();
-      window.removeEventListener('keydown', onEscCloser);
       removeOverlay(overlayedElement);
       closeElement(uploadContainerElement);
       uploadForm.reset();
